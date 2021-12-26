@@ -19,7 +19,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/brewery_list_item_background">
+            android:background="@drawable/brewery_list_item_background"
+            android:paddingBottom="10dp">
 
             <TextView
                 android:id="@+id/name"
@@ -108,6 +109,55 @@
                 app:layout_constraintBottom_toBottomOf="@+id/textCity"
                 app:layout_constraintStart_toEndOf="@+id/textCity"
                 app:layout_constraintTop_toTopOf="@+id/textCity" />
+
+            <TextView
+                android:id="@+id/textWebSite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/webSite"
+                app:layout_constraintStart_toStartOf="@+id/textStreet"
+                app:layout_constraintTop_toBottomOf="@+id/textStreet" />
+
+            <TextView
+                android:id="@+id/webSite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="TextView"
+                app:layout_constraintBottom_toBottomOf="@+id/textWebSite"
+                app:layout_constraintStart_toEndOf="@+id/textWebSite"
+                app:layout_constraintTop_toTopOf="@+id/textWebSite" />
+
+            <TextView
+                android:id="@+id/textPhone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/phone"
+                app:layout_constraintStart_toStartOf="@+id/textWebSite"
+                app:layout_constraintTop_toBottomOf="@+id/textWebSite" />
+
+            <TextView
+                android:id="@+id/phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="TextView"
+                app:layout_constraintBottom_toBottomOf="@+id/textPhone"
+                app:layout_constraintStart_toEndOf="@+id/textPhone"
+                app:layout_constraintTop_toTopOf="@+id/textPhone" />
+
+            <Button
+                android:id="@+id/showOnMapButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="@color/green"
+                android:text="@string/showOnMap"
+                android:textAllCaps="false"
+                app:layout_constraintStart_toStartOf="@+id/textPhone"
+                app:layout_constraintTop_toBottomOf="@+id/textPhone" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

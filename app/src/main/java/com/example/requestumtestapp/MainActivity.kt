@@ -1,5 +1,7 @@
 package com.example.requestumtestapp
 
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -11,8 +13,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.requestumtestapp.adapter.BreweryAdapter
+import com.example.requestumtestapp.interfaces.MapCallback
 import com.example.requestumtestapp.model.Brewery
 import com.example.requestumtestapp.viewmodel.MainViewModel
+import java.util.*
+import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
@@ -59,7 +64,12 @@ class MainActivity : AppCompatActivity() {
             {
                 if(it.isNotEmpty()){
                     breweryList = it as ArrayList<Brewery>
-                    val adapter = BreweryAdapter(breweryList)
+                    val adapter = BreweryAdapter(breweryList, object : MapCallback{
+                        override fun onCallback(intent: Intent) {
+                            startActivity(intent)
+                        }
+
+                    })
                     breweryListView.adapter = adapter
                     breweryListView.layoutManager = LinearLayoutManager(applicationContext, LinearLayoutManager.VERTICAL, false)
 

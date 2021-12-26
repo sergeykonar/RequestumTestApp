@@ -3,8 +3,10 @@ package com.example.requestumtestapp.viewmodel
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import androidx.room.Room
 import com.example.requestumtestapp.api.BreweryApi
 import com.example.requestumtestapp.api.RetrofitClient
+import com.example.requestumtestapp.database.AppDatabase
 import com.example.requestumtestapp.model.Brewery
 import retrofit2.Call
 import retrofit2.Callback
@@ -17,6 +19,11 @@ class MainRepository(application: Application) {
     private var searchList = ArrayList<Brewery>()
 
     private var breweryApi: BreweryApi = RetrofitClient.getRetrofitService()
+    private val dataBase = Room
+        .databaseBuilder(application.applicationContext, AppDatabase::class.java, "AppDatabase")
+        .fallbackToDestructiveMigration()
+        .allowMainThreadQueries()
+        .build()
 
     private val TAG = MainRepository::class.java.canonicalName
 
@@ -33,6 +40,8 @@ class MainRepository(application: Application) {
             ) {
                if (response.isSuccessful){
                    list = response.body()!!
+                   val dao = dataBase.breweryDao()
+                   dao.insertList(list)
                    data.postValue(list)
                }else{
                    Log.e(TAG, "Error occurred")
@@ -40,7 +49,10 @@ class MainRepository(application: Application) {
             }
 
             override fun onFailure(call: Call<ArrayList<Brewery>>, t: Throwable) {
-                Log.e(TAG, t.message.toString())
+                Log.e(TAG, String.format("Getting saved data from database due to: %s", t.message.toString()))
+                val dao = dataBase.breweryDao()
+                val list = dao.getAll()
+                data.postValue(list)
             }
 
         })
@@ -60,12 +72,15 @@ class MainRepository(application: Application) {
                 if (response.isSuccessful){
                     searchList = response.body()!!
                     data.postValue(searchList)
-                    // TODO: Save responses to Room DB
                 }
             }
 
             override fun onFailure(call: Call<ArrayList<Brewery>>, t: Throwable) {
                 Log.e(TAG, t.message.toString())
+                val dao = dataBase.breweryDao()
+                val list = dao.getAll()
+                val filtered = list.filter { it.name!!.contains(query) }
+                data.postValue(filtered)
             }
 
         })
